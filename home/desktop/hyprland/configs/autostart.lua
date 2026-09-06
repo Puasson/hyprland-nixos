@@ -1,6 +1,4 @@
 hl.on("hyprland.start", function()
-	hl.exec_cmd("awww-daemon")
-	hl.exec_cmd("$HOME/.config/hypr/wallpaper.sh")
 	hl.exec_cmd("nm-applet --indicator")
 	hl.exec_cmd("/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1")
 end)

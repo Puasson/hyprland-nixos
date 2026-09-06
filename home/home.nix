@@ -30,6 +30,7 @@
     gimp
     audacity
     tauon
+    strawberry
     cava
     mpv
     sioyek

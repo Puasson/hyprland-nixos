@@ -7,7 +7,7 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("brave-origin"))
 hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("qs ipc call LauncherMenu toggle"))
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("codium"))
-hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("awww next --transition-type random --transition-duration 0.5"))
+hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("qs ipc call WallpaperMenu toggle"))
 
 hl.bind("ALT + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.window.fullscreen({ mode = "maximized" }))

@@ -22,6 +22,12 @@ ShellRoot {
                     screen: modelData
                     powerMenu: powerMenu
                 }
+                Widgets.WallpaperBackground {
+                    screen: modelData
+                }
+                Widgets.WallpaperMenu {
+                    screen: modelData
+                }
                 Widgets.LauncherMenu {
                     id: launcherMenu
                     screen: modelData
