@@ -32,16 +32,18 @@ PanelWindow {
         anchors.fill: parent
         radius: 6
         color: "#1e1e2e"
-        opacity: 0.9
+        opacity: 0.8
 
         RowLayout {
             id: rightRow
             anchors.centerIn: parent
-            spacing: 8
+            spacing: 20
 
             Media {}
 
-            Network {}
+            Network {
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+            }
 
             CpuMem {}
 

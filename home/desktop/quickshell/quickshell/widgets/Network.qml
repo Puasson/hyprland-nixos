@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 
@@ -26,16 +27,44 @@ Item {
         return "  Desconectado";
     }
 
-    width: netLabel.implicitWidth + 4
-    height: 22
+    width: implicitWidth
+    height: implicitHeight
+    implicitWidth: Math.max(measureIp.implicitWidth, measureDown.implicitWidth) + 2
+    implicitHeight: 14
+
+    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+    Layout.preferredWidth: implicitWidth
+    Layout.preferredHeight: implicitHeight
 
     Text {
         id: netLabel
+        width: parent.width
         anchors.centerIn: parent
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
         color: "#cdd6f4"
         font.pixelSize: 12
         font.family: theme.iconFont
         text: net.label()
+        elide: Text.ElideRight
+    }
+
+    // Medidas ocultas del texto más largo para reservar un ancho fijo
+    // y que el contenido siempre quede centrado sin que el panel salte.
+    Text {
+        id: measureIp
+        visible: false
+        font.pixelSize: 12
+        font.family: theme.iconFont
+        text: "  255.255.255.255"
+    }
+
+    Text {
+        id: measureDown
+        visible: false
+        font.pixelSize: 12
+        font.family: theme.iconFont
+        text: "  Desconectado"
     }
 
     Process {

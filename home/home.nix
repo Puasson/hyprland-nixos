@@ -5,6 +5,7 @@
     ./programs/kitty/kitty.nix
     ./programs/fastfetch/fastfetch.nix
     ./programs/neovim/neovim.nix
+    ./programs/mpv/mpv.nix
     ./programs/obs/obs.nix
     ./programs/ssh/ssh.nix
     ./desktop/hyprland/default.nix
@@ -30,9 +31,7 @@
     gimp
     audacity
     tauon
-    strawberry
     cava
-    mpv
     sioyek
     onlyoffice-desktopeditors
     img2pdf

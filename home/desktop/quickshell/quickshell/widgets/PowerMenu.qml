@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland
+import Quickshell.Hyprland
 
 PanelWindow {
     id: root
@@ -24,8 +26,10 @@ PanelWindow {
 
     exclusionMode: ExclusionMode.Ignore
     exclusiveZone: 0
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
 
     property var theme: Theme {}
+    required property var barWindow
 
     function toggle(): void {
         root.visible = !root.visible;
@@ -46,6 +50,18 @@ PanelWindow {
         function toggle(): void {
             root.toggle();
         }
+    }
+
+    Shortcut {
+        sequence: "Escape"
+        enabled: root.visible
+        onActivated: root.visible = false
+    }
+
+    HyprlandFocusGrab {
+        windows: root.barWindow ? [root, root.barWindow] : [root]
+        active: root.visible
+        onCleared: root.visible = false
     }
 
     Rectangle {

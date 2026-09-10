@@ -40,7 +40,7 @@ PanelWindow {
         height: 22
         radius: theme.pillRadius
         color: theme.bg
-        opacity: 0.9
+        opacity: 0.8
 
         RowLayout {
             id: centerRow
@@ -51,7 +51,7 @@ PanelWindow {
                 id: clockLabel
                 color: theme.text
                 font.pixelSize: 12
-                font.family: theme.textFont
+                font.family: theme.iconFont
                 text: root.showFull ? Qt.formatDateTime(sysClock.date, "dddd, d MMMM yyyy hh:mm") : Qt.formatDateTime(sysClock.date, "hh:mm")
 
                 MouseArea {
@@ -75,7 +75,7 @@ PanelWindow {
                 Text {
                     id: bellIcon
                     anchors.centerIn: parent
-                    anchors.verticalCenterOffset: -1
+                    anchors.verticalCenterOffset: 0
                     text: Notifications.dnd ? "" : ""
                     color: bellArea.containsMouse ? theme.mauve : (Notifications.unread > 0 ? theme.text : theme.subtext)
                     font.pixelSize: 12

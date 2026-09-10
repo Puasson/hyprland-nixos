@@ -12,7 +12,7 @@ Row {
     property int memPct: 0
     property string memDetail: ""
 
-    spacing: 8
+    spacing: 20
 
     Text {
         color: "#cdd6f4"
@@ -25,7 +25,7 @@ Row {
         color: "#cdd6f4"
         font.pixelSize: 12
         font.family: theme.iconFont
-        text: "  " + sysmon.memPct + "%"
+        text: " " + sysmon.memPct + "%"
     }
 
     Process {

@@ -47,33 +47,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "ws-brave",
-	match = { class = "brave-origin" },
-
-	workspace = "1",
-	no_initial_focus = true,
-	suppress_event = "activate",
-})
-
-hl.window_rule({
-	name = "ws-codium",
-	match = { class = "vscodium" },
-
-	workspace = "2",
-	no_initial_focus = true,
-	suppress_event = "activate",
-})
-
-hl.window_rule({
-	name = "ws-obsidian",
-	match = { class = "obsidian" },
-
-	workspace = "3",
-	no_initial_focus = true,
-	suppress_event = "activate",
-})
-
-hl.window_rule({
 	name = "ws-spotify",
 	match = { class = "Spotify" },
 

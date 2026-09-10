@@ -4,6 +4,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Hyprland
 
 PanelWindow {
     id: root
@@ -105,6 +106,12 @@ PanelWindow {
         }
     }
 
+    HyprlandFocusGrab {
+        windows: [root]
+        active: root.visible
+        onCleared: root.visible = false
+    }
+
     Rectangle {
         anchors.fill: parent
         radius: 8
@@ -198,10 +205,38 @@ PanelWindow {
                     radius: 6
                     color: "#313244"
                 }
-                onTextChanged: root.query = text
+                onTextChanged: {
+                    root.query = text;
+                    grid.currentIndex = 0;
+                    grid.positionViewAtBeginning();
+                }
                 Keys.onPressed: event => {
                     if (event.key === Qt.Key_Escape) {
                         root.visible = false;
+                        event.accepted = true;
+                    } else if (event.key === Qt.Key_Left) {
+                        if (grid.count > 0) {
+                            grid.moveCurrentIndexLeft();
+                            grid.positionViewAtIndex(grid.currentIndex, GridView.Contain);
+                        }
+                        event.accepted = true;
+                    } else if (event.key === Qt.Key_Right) {
+                        if (grid.count > 0) {
+                            grid.moveCurrentIndexRight();
+                            grid.positionViewAtIndex(grid.currentIndex, GridView.Contain);
+                        }
+                        event.accepted = true;
+                    } else if (event.key === Qt.Key_Up) {
+                        if (grid.count > 0) {
+                            grid.moveCurrentIndexUp();
+                            grid.positionViewAtIndex(grid.currentIndex, GridView.Contain);
+                        }
+                        event.accepted = true;
+                    } else if (event.key === Qt.Key_Down) {
+                        if (grid.count > 0) {
+                            grid.moveCurrentIndexDown();
+                            grid.positionViewAtIndex(grid.currentIndex, GridView.Contain);
+                        }
                         event.accepted = true;
                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                         const items = root.filtered();

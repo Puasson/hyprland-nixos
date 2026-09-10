@@ -48,7 +48,7 @@ PanelWindow {
         anchors.fill: parent
         radius: 6
         color: "#1e1e2e"
-        opacity: 0.9
+        opacity: 0.8
 
         RowLayout {
             id: leftRow

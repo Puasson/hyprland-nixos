@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
+import Quickshell.Hyprland
 
 PanelWindow {
     id: root
@@ -29,6 +30,7 @@ PanelWindow {
     }
 
     property double lastShortcutClose: 0
+    required property var barWindow
 
     function toggle(): void {
         if (Date.now() - lastShortcutClose < 500)
@@ -75,6 +77,12 @@ PanelWindow {
     onVisibleChanged: {
         if (visible)
             Notifications.markRead();
+    }
+
+    HyprlandFocusGrab {
+        windows: root.barWindow ? [root, root.barWindow] : [root]
+        active: root.visible
+        onCleared: root.visible = false
     }
 
     Rectangle {

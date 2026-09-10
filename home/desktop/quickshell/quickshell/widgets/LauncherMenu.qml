@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Wayland
+import Quickshell.Hyprland
 
 PanelWindow {
     id: root
@@ -32,6 +33,7 @@ PanelWindow {
     }
     property string query: ""
     property double lastShortcutClose: 0
+    required property var barWindow
 
     function toggle(): void {
         if (Date.now() - lastShortcutClose < 500)
@@ -110,11 +112,17 @@ PanelWindow {
         }
     }
 
+    HyprlandFocusGrab {
+        windows: root.barWindow ? [root, root.barWindow] : [root]
+        active: root.visible
+        onCleared: root.visible = false
+    }
+
     Rectangle {
         anchors.fill: parent
         radius: 8
         color: "#1e1e2e"
-        opacity: 0.97
+        opacity: 0.9
         border.color: "#313244"
         border.width: 1
 
@@ -162,7 +170,7 @@ PanelWindow {
             ListView {
                 id: appList
                 Layout.fillWidth: true
-                implicitHeight: Math.min(380, count * 40 + Math.max(0, count - 1) * 4)
+                implicitHeight: Math.min(380, count * 32 + Math.max(0, count - 1) * 4)
                 clip: true
                 spacing: 4
                 model: root.filteredApps()
@@ -176,7 +184,7 @@ PanelWindow {
                     required property var modelData
                     property var entry: modelData
                     width: appList.width
-                    height: 40
+                    height: 32
                     radius: 6
                     color: ListView.isCurrentItem ? "#45475a" : "transparent"
 
@@ -193,27 +201,14 @@ PanelWindow {
                             asynchronous: true
                         }
 
-                        ColumnLayout {
+                        Text {
                             Layout.fillWidth: true
-                            spacing: 0
-
-                            Text {
-                                Layout.fillWidth: true
-                                text: modelData.name
-                                color: "#cdd6f4"
-                                font.pixelSize: 12
-                                font.family: theme.textFont
-                                elide: Text.ElideRight
-                            }
-                            Text {
-                                Layout.fillWidth: true
-                                text: modelData.genericName || modelData.comment
-                                color: "#6c7086"
-                                font.pixelSize: 10
-                                font.family: theme.textFont
-                                elide: Text.ElideRight
-                                visible: text !== ""
-                            }
+                            Layout.alignment: Qt.AlignVCenter
+                            text: modelData.name
+                            color: "#cdd6f4"
+                            font.pixelSize: 12
+                            font.family: theme.textFont
+                            elide: Text.ElideRight
                         }
                     }
 
