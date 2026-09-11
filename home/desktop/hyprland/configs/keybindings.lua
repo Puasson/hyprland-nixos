@@ -1,5 +1,5 @@
 local mainMod = "SUPER"
-local terminal = "kitty"
+local terminal = "uwsm app -- kitty"
 local fileManager = "nautilus"
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
@@ -15,7 +15,7 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 hl.bind(mainMod .. " + SHIFT + M", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(
 	mainMod .. " + SHIFT + Delete",
-	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit")
+	hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || uwsm stop")
 )
 
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
@@ -64,13 +64,13 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind(
 	"Print",
 	hl.dsp.exec_cmd(
-		"grim ~/Pictures/captura-$(date +%Y%m%d-%H%M%S).png && notify-send -i camera-photo 'Captura' 'Guardada en ~/Pictures/'"
+		"mkdir -p ~/Pictures && grim ~/Pictures/captura-$(date +%Y%m%d-%H%M%S).png && notify-send -i camera-photo 'Captura' 'Guardada en ~/Pictures/'"
 	)
 )
 hl.bind(
 	mainMod .. " + print",
 	hl.dsp.exec_cmd(
-		"slurp | grim -g - ~/Pictures/captura-$(date +%Y%m%d-%H%M%S).png && notify-send -i camera-photo 'Captura' 'Guardada en ~/Pictures/'"
+		"mkdir -p ~/Pictures && slurp | grim -g - ~/Pictures/captura-$(date +%Y%m%d-%H%M%S).png && notify-send -i camera-photo 'Captura' 'Guardada en ~/Pictures/'"
 	)
 )
 

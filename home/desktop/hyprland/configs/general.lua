@@ -3,10 +3,6 @@ hl.config({
 		gaps_in = 4,
 		gaps_out = 6,
 		border_size = 0,
-		col = {
-			active_border = { colors = { "rgba(4CC27Ecc)", "rgba(3FBA81aa)" }, angle = 45 },
-			inactive_border = "rgba(1D2C2A88)",
-		},
 		layout = "dwindle",
 		resize_on_border = true,
 	},
@@ -24,9 +20,6 @@ hl.config({
 	dwindle = {
 		preserve_split = true,
 		smart_resizing = true,
-	},
-	master = {
-		new_status = "slave",
 	},
 	misc = {
 		force_default_wallpaper = 0,

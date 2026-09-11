@@ -224,7 +224,7 @@
     }
     {
       mode = "n";
-      key = "<C-w>";
+      key = "<leader>bd";
       action = "<cmd>bdelete<cr>";
       options = {
         desc = "Delete Buffer";
@@ -233,7 +233,7 @@
     {
       mode = "n";
       key = "<leader>bD";
-      action = "<cmd>:bd<cr>";
+      action = "<cmd>bd<cr>";
       options = {
         desc = "Delete Buffer and Window";
       };
@@ -274,9 +274,9 @@
     {
       mode = "n";
       key = "<leader>l";
-      action = "<cmd>Lazy<cr>";
+      action = "<cmd>checkhealth<cr>";
       options = {
-        desc = "Lazy";
+        desc = "CheckHealth";
       };
     }
 
@@ -504,6 +504,24 @@
       };
     }
 
+    {
+      mode = "n";
+      key = "<leader>cp";
+      action = "<cmd>CccPick<cr>";
+      options = {
+        desc = "Color Picker (ccc)";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>cC";
+      action = "<cmd>CccConvert<cr>";
+      options = {
+        desc = "Convert Color Format";
+        silent = true;
+      };
+    }
     {
       mode = "n";
       key = "gd";

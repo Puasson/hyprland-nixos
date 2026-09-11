@@ -24,6 +24,13 @@
       scrolloff = 8;
       updatetime = 250;
       clipboard = "unnamedplus";
+      undofile = true;
+      ignorecase = true;
+      smartcase = true;
+      splitbelow = true;
+      splitright = true;
+      wrap = false;
+      swapfile = false;
     };
 
     globals.mapleader = " ";
@@ -32,13 +39,17 @@
       enable = true;
       settings = {
         flavour = "mocha";
+        transparent_background = true;
+        float = {
+          transparent = true;
+          solid = false;
+        };
         integrations = {
           cmp = true;
           gitsigns = true;
           treesitter = true;
           telescope.enabled = true;
           indent_blankline.enabled = true;
-          mini.enabled = true;
           native_lsp = {
             enabled = true;
             underlines = {
@@ -48,7 +59,6 @@
               information = ["undercurl"];
             };
           };
-          navic.enabled = true;
           neotree.enabled = true;
           which_key = true;
         };
@@ -56,6 +66,7 @@
     };
 
     plugins = {
+      web-devicons.enable = true;
       neo-tree.enable = true;
       telescope.enable = true;
       treesitter.enable = true;
@@ -68,18 +79,29 @@
       flash.enable = true;
       trouble.enable = true;
 
+      # Ver y editar colores CSS (#1e1e2e, rgb(), hsl()...).
+      # :CccPick edita el color bajo el cursor, :CccConvert cambia el formato.
+      ccc = {
+        enable = true;
+        settings = {
+          highlight_mode = "background";
+          highlighter = {
+            auto_enable = true;
+            lsp = true;
+          };
+        };
+      };
+
       lsp = {
         enable = true;
         servers = {
-          nil_ls.enable = true;
+          nixd.enable = true;
           lua_ls.enable = true;
           ts_ls.enable = true;
           pylsp = {
             enable = true;
-            settings.plugins.ruff = {
-              enabled = true;
-              formatOnSave = true;
-            };
+            # Formato via conform-nvim (ruff_format); aqui solo lint.
+            settings.plugins.ruff.enabled = true;
           };
         };
       };
@@ -119,11 +141,11 @@
             { name = "path"; }
           ];
           mapping = {
-            "<CR>" = "cmp.mapping.confirm({ select = true })";
-            "<Tab>" = "cmp.mapping.select_next_item()";
-            "<S-Tab>" = "cmp.mapping.select_prev_item()";
-            "<C-Space>" = "cmp.mapping.complete()";
-            "<C-e>" = "cmp.mapping.abort()";
+            "<CR>".__raw = "cmp.mapping.confirm({ select = true })";
+            "<Tab>".__raw = "cmp.mapping.select_next_item()";
+            "<S-Tab>".__raw = "cmp.mapping.select_prev_item()";
+            "<C-Space>".__raw = "cmp.mapping.complete()";
+            "<C-e>".__raw = "cmp.mapping.abort()";
           };
         };
       };

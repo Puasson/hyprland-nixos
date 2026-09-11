@@ -133,7 +133,13 @@
     git
     adw-gtk3
     vimix-cursors
-    catppuccin-sddm
+    polkit_gnome
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      accent = "mauve";
+      background = ../assets/2.png;
+      loginBackground = true;
+    })
     qt6.qtwayland
   ];
 

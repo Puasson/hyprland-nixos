@@ -48,5 +48,7 @@
     spotiflac
     bitwarden-desktop
     spotify
+    ffmpegthumbnailer
+    btop
   ];
 }

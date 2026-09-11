@@ -48,11 +48,11 @@
             key = "c";
           }
           {
-            icon = "󰒲 ";
-            desc = "Lazy";
+            icon = "󰓙 ";
+            desc = "Health";
             group = "Identifier";
-            action = "Lazy";
-            key = "l";
+            action = "checkhealth";
+            key = "h";
           }
         ];
         footer.__raw = "{ '', '  Neovim v' .. tostring(vim.version()) .. ' ', }";

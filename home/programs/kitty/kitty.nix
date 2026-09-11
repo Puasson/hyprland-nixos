@@ -3,8 +3,11 @@
 {
   programs.kitty = {
     enable = true;
-    themeFile = "Catppuccin-Frappe";
-    shellIntegration.enableBashIntegration = true;
+    themeFile = "Catppuccin-Mocha";
+    shellIntegration = {
+      enableBashIntegration = true;
+      mode = "no-cursor";
+    };
 
     font = {
       name = "Iosevka Nerd Font";
@@ -18,7 +21,7 @@
       url_style = "curly";
       detect_urls = true;
       open_url_with = "default";
-      background_opacity = "0.75";
+      background_opacity = "0.85";
       window_padding_width = 8;
       hide_window_decorations = true;
       disable_ligatures = "never";
@@ -28,19 +31,20 @@
       active_border_color = "#a6b7b7";
       inactive_border_color = "#000000";
       enable_audio_bell = false;
-      confirm_os_window_close = 0;
-      scrollback_lines = 50000;
+      confirm_os_window_close = 1;
+      scrollback_lines = 10000;
       scrollback_pager = "nvim -R -c 'set nowrap nonumber nolist showtabline=0' +G -";
       scrollback_fill_enlarged_window = true;
-      wheel_scroll_multiplier = "3.0";
-      touch_scroll_multiplier = "3.0";
-      copy_on_select = "clipboard";
+      wheel_scroll_multiplier = "2.0";
+      touch_scroll_multiplier = "2.0";
+      copy_on_select = "no";
       strip_trailing_spaces = "smart";
-      clipboard_control = "write-clipboard write-primary";
-      shell_integration = "enabled";
+      clipboard_control = "write-clipboard read-clipboard-ask read-primary-ask";
+      clipboard_max_size = 64;
+      paste_actions = "confirm,confirm-if-large,replace-dangerous-control-codes";
       update_check_interval = 0;
-      enabled_layouts = "splits,stack,tall,grid";
-      remember_window_size = true;
+      enabled_layouts = "splits,stack";
+      remember_window_size = false;
       mouse_hide_wait = "1.0";
       repaint_delay = 10;
       input_delay = 3;
