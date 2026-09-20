@@ -23,6 +23,7 @@
       cursorline = true;
       scrolloff = 8;
       updatetime = 250;
+      timeoutlen = 300;
       clipboard = "unnamedplus";
       undofile = true;
       ignorecase = true;
@@ -34,6 +35,40 @@
     };
 
     globals.mapleader = " ";
+
+    # Si nvim se abre con un directorio (nvim . / nvim ~/proyecto),
+    # entrar en él, cerrar el buffer del directorio y mostrar Neo-tree
+    # en su lugar. Sin args manda el dashboard de snacks; con un
+    # fichero se abre el fichero con normalidad.
+    autoCmd = [
+      {
+        event = [ "VimEnter" ];
+        desc = "Open Neo-tree when nvim is called with a directory";
+        callback.__raw = ''
+          function()
+            if vim.fn.argc() ~= 1 then
+              return
+            end
+            local argv0 = vim.fn.argv(0)
+            if argv0 == "" or vim.fn.isdirectory(argv0) ~= 1 then
+              return
+            end
+            local dir = vim.fn.fnamemodify(argv0, ":p")
+            vim.cmd("cd " .. vim.fn.fnameescape(dir))
+            vim.cmd("bwipeout")
+            vim.cmd("Neotree show dir=" .. vim.fn.fnameescape(dir))
+          end
+        '';
+      }
+    ];
+
+    diagnostic.settings = {
+      virtual_text = true;
+      signs = true;
+      underline = true;
+      update_in_insert = false;
+      severity_sort = true;
+    };
 
     colorschemes.catppuccin = {
       enable = true;
@@ -48,15 +83,14 @@
           cmp = true;
           gitsigns = true;
           treesitter = true;
-          telescope.enabled = true;
           indent_blankline.enabled = true;
           native_lsp = {
             enabled = true;
             underlines = {
-              errors = ["undercurl"];
-              hints = ["undercurl"];
-              warnings = ["undercurl"];
-              information = ["undercurl"];
+              errors = [ "undercurl" ];
+              hints = [ "undercurl" ];
+              warnings = [ "undercurl" ];
+              information = [ "undercurl" ];
             };
           };
           neotree.enabled = true;
@@ -68,8 +102,13 @@
     plugins = {
       web-devicons.enable = true;
       neo-tree.enable = true;
-      telescope.enable = true;
-      treesitter.enable = true;
+      treesitter = {
+        enable = true;
+        settings = {
+          highlight.enable = true;
+          indent.enable = true;
+        };
+      };
       lualine.enable = true;
       which-key.enable = true;
       bufferline.enable = true;
@@ -78,9 +117,18 @@
       illuminate.enable = true;
       flash.enable = true;
       trouble.enable = true;
+      lazygit.enable = true;
 
-      # Ver y editar colores CSS (#1e1e2e, rgb(), hsl()...).
-      # :CccPick edita el color bajo el cursor, :CccConvert cambia el formato.
+      snacks = {
+        enable = true;
+        settings = {
+          bigfile.enabled = true;
+          quickfile.enabled = true;
+          image.enabled = true;
+          picker.enabled = true;
+        };
+      };
+
       ccc = {
         enable = true;
         settings = {
@@ -94,14 +142,21 @@
 
       lsp = {
         enable = true;
+        inlayHints = true;
         servers = {
-          nixd.enable = true;
+          nixd = {
+            enable = true;
+            settings.formatting.command = [ "nixfmt" ];
+          };
           lua_ls.enable = true;
           ts_ls.enable = true;
-          pylsp = {
+          basedpyright = {
             enable = true;
-            # Formato via conform-nvim (ruff_format); aqui solo lint.
-            settings.plugins.ruff.enabled = true;
+            settings.basedpyright.analysis = {
+              autoSearchPaths = true;
+              diagnosticMode = "openFilesOnly";
+              typeCheckingMode = "standard";
+            };
           };
         };
       };
@@ -111,9 +166,30 @@
         settings = {
           formatters_by_ft = {
             lua = [ "stylua" ];
-            python = [ "ruff_organize_imports" "ruff_format" ];
-            javascript = [ "prettierd" "prettier" ];
-            typescript = [ "prettierd" "prettier" ];
+            python = [
+              "ruff_organize_imports"
+              "ruff_format"
+            ];
+            javascript = {
+              __unkeyed-1 = "prettierd";
+              __unkeyed-2 = "prettier";
+              stop_after_first = true;
+            };
+            typescript = {
+              __unkeyed-1 = "prettierd";
+              __unkeyed-2 = "prettier";
+              stop_after_first = true;
+            };
+            javascriptreact = {
+              __unkeyed-1 = "prettierd";
+              __unkeyed-2 = "prettier";
+              stop_after_first = true;
+            };
+            typescriptreact = {
+              __unkeyed-1 = "prettierd";
+              __unkeyed-2 = "prettier";
+              stop_after_first = true;
+            };
             nix = [ "nixfmt" ];
             "_" = [ "trim_whitespace" ];
           };
@@ -127,13 +203,24 @@
       lint = {
         enable = true;
         lintersByFt = {
-          python = [ "ruff" "mypy" ];
+          python = [
+            "ruff"
+          ];
+        };
+        autoCmd = {
+          event = [
+            "BufEnter"
+            "BufWritePost"
+            "InsertLeave"
+          ];
         };
       };
 
       cmp = {
         enable = true;
+        autoEnableSources = true;
         settings = {
+          snippet.expand.__raw = "function(args) require('luasnip').lsp_expand(args.body) end";
           sources = [
             { name = "nvim_lsp"; }
             { name = "luasnip"; }
@@ -142,8 +229,28 @@
           ];
           mapping = {
             "<CR>".__raw = "cmp.mapping.confirm({ select = true })";
-            "<Tab>".__raw = "cmp.mapping.select_next_item()";
-            "<S-Tab>".__raw = "cmp.mapping.select_prev_item()";
+            "<Tab>".__raw = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                elseif require('luasnip').expand_or_jumpable() then
+                  require('luasnip').expand_or_jump()
+                else
+                  fallback()
+                end
+              end, { 'i', 's' })
+            '';
+            "<S-Tab>".__raw = ''
+              cmp.mapping(function(fallback)
+                if cmp.visible() then
+                  cmp.select_prev_item()
+                elseif require('luasnip').jumpable(-1) then
+                  require('luasnip').jump(-1)
+                else
+                  fallback()
+                end
+              end, { 'i', 's' })
+            '';
             "<C-Space>".__raw = "cmp.mapping.complete()";
             "<C-e>".__raw = "cmp.mapping.abort()";
           };
@@ -151,26 +258,18 @@
       };
 
       luasnip.enable = true;
-      cmp-nvim-lsp.enable = true;
-      cmp-buffer.enable = true;
-      cmp-path.enable = true;
     };
-
-    extraPlugins = with pkgs.vimPlugins; [
-      lazygit-nvim
-    ];
 
     extraPackages = with pkgs; [
       ripgrep
       fd
       gcc
       stylua
-      ruff
-      mypy
       prettierd
       prettier
       nixfmt
-      lazygit
+      ruff
+      imagemagick
     ];
   };
 }

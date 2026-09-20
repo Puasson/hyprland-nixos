@@ -19,32 +19,21 @@ hl.window_rule({
 	no_focus = true,
 })
 
-hl.window_rule({
-	name = "flotante-pavucontrol",
-	match = { class = "pavucontrol" },
+-- Helper: ventana flotante centrada con tamaño relativo.
+local function float_center(name, class, size)
+	hl.window_rule({
+		name = name,
+		match = { class = class },
 
-	float = true,
-	center = true,
-	size = "50% 50%",
-})
+		float = true,
+		center = true,
+		size = size,
+	})
+end
 
-hl.window_rule({
-	name = "flotante-nm-connection-editor",
-	match = { class = "nm-connection-editor" },
-
-	float = true,
-	center = true,
-	size = "50% 50%",
-})
-
-hl.window_rule({
-	name = "flotante-qview",
-	match = { class = "qview" },
-
-	float = true,
-	center = true,
-	size = "60% 60%",
-})
+float_center("flotante-pavucontrol", "pavucontrol", "50% 50%")
+float_center("flotante-nm-connection-editor", "nm-connection-editor", "50% 50%")
+float_center("flotante-qview", "qview", "60% 60%")
 
 hl.window_rule({
 	name = "ws-spotify",
@@ -89,9 +78,18 @@ hl.window_rule({
 	move = "monitor_w-500 monitor_h-290",
 })
 
+-- SUPER+F (fullscreen real, estado interno 2 o 3): sin rounding para llegar a borde.
+-- SUPER+M (maximized, estado interno 1) no entra aquí y conserva decoration.rounding.
 hl.window_rule({
 	name = "video-no-rounding-fullscreen",
-	match = { fullscreen = true },
+	match = { fullscreen_state_internal = 2 },
+
+	rounding = 0,
+})
+
+hl.window_rule({
+	name = "video-no-rounding-fullscreen-max",
+	match = { fullscreen_state_internal = 3 },
 
 	rounding = 0,
 })

@@ -3,7 +3,14 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Services.Notifications
+import "../commons" as Commons
 
+// Store global de notificaciones (antes widgets/Notifications.qml).
+// - `transient` se muestra como toast pero no entra al historial.
+// - El historial guarda textos de acciones solo a modo informativo: los
+//   objetos NotificationAction no son serializables en un ListModel, así
+//   que el centro no re-ejecuta acciones de notificaciones ya expiradas.
+// - `time` incluye fecha corta para no ambiguar notis de días anteriores.
 Singleton {
     id: root
 
@@ -59,9 +66,9 @@ Singleton {
                 "urgency": n.urgency,
                 "appIcon": n.appIcon || "",
                 "image": n.image || "",
-                "time": Qt.formatDateTime(new Date(), "hh:mm")
+                "time": Qt.formatDateTime(new Date(), "d/M hh:mm")
             });
-            while (historyModel.count > 50)
+            while (historyModel.count > Commons.Config.historyMax)
                 historyModel.remove(historyModel.count - 1);
             root.unread += 1;
         }

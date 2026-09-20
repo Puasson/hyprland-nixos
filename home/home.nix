@@ -5,6 +5,7 @@
     ./programs/kitty/kitty.nix
     ./programs/fastfetch/fastfetch.nix
     ./programs/neovim/neovim.nix
+    ./programs/python/python.nix
     ./programs/mpv/mpv.nix
     ./programs/obs/obs.nix
     ./programs/ssh/ssh.nix
@@ -27,28 +28,20 @@
 
   home.packages = with pkgs; [
     brave-origin
-    qview
+    librewolf
     gimp
     audacity
     tauon
     cava
-    sioyek
     onlyoffice-desktopeditors
     img2pdf
     obsidian
     gnome-text-editor
-    vscodium-fhs
-    nixd
-    python3
     opencode
-    oh-my-posh
-    nautilus
     unzip
     zapzap
-    spotiflac
     bitwarden-desktop
     spotify
-    ffmpegthumbnailer
-    btop
+    mpvpaper
   ];
 }

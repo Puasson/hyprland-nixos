@@ -233,9 +233,9 @@
     {
       mode = "n";
       key = "<leader>bD";
-      action = "<cmd>bd<cr>";
+      action = "<cmd>bdelete!<cr>";
       options = {
-        desc = "Delete Buffer and Window";
+        desc = "Delete Buffer (Force)";
       };
     }
 
@@ -264,11 +264,17 @@
       mode = "v";
       key = "<";
       action = "<gv";
+      options = {
+        desc = "Indent Left and Reselect";
+      };
     }
     {
       mode = "v";
       key = ">";
       action = ">gv";
+      options = {
+        desc = "Indent Right and Reselect";
+      };
     }
 
     {
@@ -309,7 +315,11 @@
     {
       mode = "n";
       key = "<leader><leader>";
-      action = "<cmd>Telescope find_files<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.files()
+        end
+      '';
       options = {
         desc = "Find Files";
       };
@@ -317,7 +327,11 @@
     {
       mode = "n";
       key = "<leader>ff";
-      action = "<cmd>Telescope find_files<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.files()
+        end
+      '';
       options = {
         desc = "Find Files";
       };
@@ -325,7 +339,11 @@
     {
       mode = "n";
       key = "<leader>fR";
-      action = "<cmd>Telescope oldfiles<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.recent()
+        end
+      '';
       options = {
         desc = "Recent (cwd)";
       };
@@ -334,7 +352,11 @@
     {
       mode = "n";
       key = "<leader>/";
-      action = "<cmd>Telescope live_grep<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.grep()
+        end
+      '';
       options = {
         desc = "Grep (Root Dir)";
       };
@@ -342,7 +364,11 @@
     {
       mode = "n";
       key = "<leader>sb";
-      action = "<cmd>Telescope current_buffer_fuzzy_find<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.lines()
+        end
+      '';
       options = {
         desc = "Buffer Lines";
       };
@@ -350,7 +376,11 @@
     {
       mode = "n";
       key = "<leader>sd";
-      action = "<cmd>Telescope diagnostics<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.diagnostics()
+        end
+      '';
       options = {
         desc = "Diagnostics";
       };
@@ -358,7 +388,11 @@
     {
       mode = "n";
       key = "<leader>sh";
-      action = "<cmd>Telescope help_tags<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.help()
+        end
+      '';
       options = {
         desc = "Help Pages";
       };
@@ -366,7 +400,11 @@
     {
       mode = "n";
       key = "<leader>sk";
-      action = "<cmd>Telescope keymaps<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.keymaps()
+        end
+      '';
       options = {
         desc = "Key Maps";
       };
@@ -374,23 +412,23 @@
     {
       mode = "n";
       key = "<leader>sm";
-      action = "<cmd>Telescope marks<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.marks()
+        end
+      '';
       options = {
         desc = "Jump to Mark";
       };
     }
     {
       mode = "n";
-      key = "<leader>so";
-      action = "<cmd>Telescope vim_options<cr>";
-      options = {
-        desc = "Options";
-      };
-    }
-    {
-      mode = "n";
       key = "<leader>sR";
-      action = "<cmd>Telescope resume<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.resume()
+        end
+      '';
       options = {
         desc = "Resume";
       };
@@ -398,7 +436,11 @@
     {
       mode = "n";
       key = "<leader>sc";
-      action = "<cmd>Telescope command_history<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.command_history()
+        end
+      '';
       options = {
         desc = "Command History";
       };
@@ -406,7 +448,11 @@
     {
       mode = "n";
       key = "<leader>sC";
-      action = "<cmd>Telescope commands<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.commands()
+        end
+      '';
       options = {
         desc = "Commands";
       };
@@ -414,7 +460,11 @@
     {
       mode = "n";
       key = "<leader>s\"";
-      action = "<cmd>Telescope registers<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.registers()
+        end
+      '';
       options = {
         desc = "Registers";
       };
@@ -422,7 +472,11 @@
     {
       mode = "n";
       key = "<leader>s/";
-      action = "<cmd>Telescope search_history<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.search_history()
+        end
+      '';
       options = {
         desc = "Search History";
       };
@@ -430,7 +484,11 @@
     {
       mode = "n";
       key = "<leader>sa";
-      action = "<cmd>Telescope autocommands<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.autocmds()
+        end
+      '';
       options = {
         desc = "Auto Commands";
       };
@@ -439,7 +497,11 @@
     {
       mode = "n";
       key = "<leader>gc";
-      action = "<cmd>Telescope git_commits<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.git_log()
+        end
+      '';
       options = {
         desc = "Commits";
       };
@@ -447,7 +509,11 @@
     {
       mode = "n";
       key = "<leader>gs";
-      action = "<cmd>Telescope git_status<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.git_status()
+        end
+      '';
       options = {
         desc = "Status";
       };
@@ -525,7 +591,11 @@
     {
       mode = "n";
       key = "gd";
-      action = "<cmd>Telescope lsp_definitions<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.lsp_definitions()
+        end
+      '';
       options = {
         desc = "Goto Definition";
       };
@@ -533,7 +603,11 @@
     {
       mode = "n";
       key = "gr";
-      action = "<cmd>Telescope lsp_references<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.lsp_references()
+        end
+      '';
       options = {
         desc = "Goto References";
       };
@@ -541,7 +615,11 @@
     {
       mode = "n";
       key = "gI";
-      action = "<cmd>Telescope lsp_implementations<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.lsp_implementations()
+        end
+      '';
       options = {
         desc = "Goto Implementation";
       };
@@ -549,7 +627,11 @@
     {
       mode = "n";
       key = "gy";
-      action = "<cmd>Telescope lsp_type_definitions<cr>";
+      action.__raw = ''
+        function()
+          Snacks.picker.lsp_type_definitions()
+        end
+      '';
       options = {
         desc = "Goto Type Definition";
       };
@@ -589,7 +671,7 @@
     {
       mode = "n";
       key = "[d";
-      action = "<cmd>lua vim.diagnostic.goto_prev()<cr>";
+      action = "<cmd>lua vim.diagnostic.jump({ count = -1, float = true })<cr>";
       options = {
         desc = "Prev Diagnostic";
       };
@@ -597,7 +679,7 @@
     {
       mode = "n";
       key = "]d";
-      action = "<cmd>lua vim.diagnostic.goto_next()<cr>";
+      action = "<cmd>lua vim.diagnostic.jump({ count = 1, float = true })<cr>";
       options = {
         desc = "Next Diagnostic";
       };

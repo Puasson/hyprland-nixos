@@ -1,0 +1,7 @@
+singleton Notifications Notifications.qml
+singleton WallpaperService WallpaperService.qml
+singleton DockService DockService.qml
+singleton SysmonService SysmonService.qml
+singleton NetworkService NetworkService.qml
+singleton MprisService MprisService.qml
+singleton Popups Popups.qml

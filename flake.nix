@@ -21,22 +21,24 @@
       ...
     }:
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/nixos/configuration.nix
+      nixosConfigurations = {
+        nixos = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/nixos/configuration.nix
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.edu = import ./home/home.nix;
-              extraSpecialArgs = { inherit inputs; };
-            };
-          }
-        ];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.edu = import ./home/home.nix;
+                extraSpecialArgs = { inherit inputs; };
+              };
+            }
+          ];
+        };
       };
     };
 }

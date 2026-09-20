@@ -21,7 +21,7 @@
       url_style = "curly";
       detect_urls = true;
       open_url_with = "default";
-      background_opacity = "0.85";
+      background_opacity = "0.7";
       window_padding_width = 8;
       hide_window_decorations = true;
       disable_ligatures = "never";

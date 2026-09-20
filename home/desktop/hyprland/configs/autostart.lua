@@ -1,6 +1,7 @@
 hl.on("hyprland.start", function()
-	hl.exec_cmd("nm-applet --indicator")
-	hl.exec_cmd("polkit-gnome-authentication-agent-1")
+	hl.exec_cmd("uwsm app -- nm-applet --indicator")
+	hl.exec_cmd("uwsm app -- polkit-gnome-authentication-agent-1")
+	hl.exec_cmd("uwsm app -- udiskie --tray")
 end)
 
 hl.env("XCURSOR_THEME", "Vimix-cursors")

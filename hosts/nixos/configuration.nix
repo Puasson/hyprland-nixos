@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./sddm.nix
   ];
 
   boot = {
@@ -45,12 +46,7 @@
       "94.140.14.14#dns.adguard-dns.com"
       "94.140.15.15#dns.adguard-dns.com"
     ];
-    firewall = {
-      enable = true;
-      logReversePathDrops = true;
-      checkReversePath = "loose";
-      trustedInterfaces = [ "tailscale0" ];
-    };
+    firewall.enable = true;
   };
 
   time.timeZone = "America/Lima";
@@ -58,18 +54,6 @@
   console.keyMap = "la-latin1";
 
   services = {
-    displayManager = {
-      sddm = {
-        enable = true;
-        wayland.enable = true;
-        theme = "catppuccin-mocha-mauve";
-      };
-      defaultSession = "hyprland-uwsm";
-      autoLogin = {
-        enable = false;
-        user = "edu";
-      };
-    };
     pipewire = {
       enable = true;
       alsa = {
@@ -88,19 +72,15 @@
     resolved = {
       enable = true;
       settings.Resolve = {
-        DNSSEC = "true";
+        DNSSEC = "allow-downgrade";
         DNSOverTLS = "true";
         FallbackDNS = [
           "9.9.9.9#dns.quad9.net"
           "1.1.1.1#cloudflare-dns.com"
         ];
         LLMNR = "false";
+        MulticastDNS = "false";
       };
-    };
-    tailscale = {
-      enable = true;
-      useRoutingFeatures = "client";
-      openFirewall = true;
     };
   };
 
@@ -123,7 +103,12 @@
 
   users.users.edu = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "audio"
+      "networkmanager"
+    ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -134,19 +119,18 @@
     adw-gtk3
     vimix-cursors
     polkit_gnome
-    (catppuccin-sddm.override {
-      flavor = "mocha";
-      accent = "mauve";
-      background = ../assets/2.png;
-      loginBackground = true;
-    })
     qt6.qtwayland
+    nautilus
+    sioyek
+    qview
+    btop
+    ffmpegthumbnailer
   ];
 
   fonts.packages = with pkgs; [
     inter
-    ubuntu-sans
-    nerd-fonts.fira-code
+    jetbrains-mono
+    material-symbols
     nerd-fonts.iosevka
   ];
 
@@ -184,21 +168,10 @@
   fileSystems."/mnt/Datos" = {
     device = "/dev/disk/by-uuid/4673cfcb-5a1f-4c5f-ba9e-6284325aefc1";
     fsType = "ext4";
-    options = [ "nofail" "x-systemd.device-timeout=5s" ];
-  };
-
-  system.autoUpgrade = {
-    enable = true;
-    flake = "/home/edu/nixos#nixos";
-    flags = [
-      "--update-input"
-      "nixpkgs"
+    options = [
+      "nofail"
+      "x-systemd.device-timeout=5s"
     ];
-    dates = "weekly";
-    randomizedDelaySec = "45min";
-    persistent = true;
-    operation = "boot";
-    allowReboot = false;
   };
 
   system.stateVersion = "26.05";

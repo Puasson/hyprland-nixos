@@ -1,8 +1,33 @@
 import QtQuick
 import Quickshell
-import "widgets" as Widgets
+import "dock" as DockMod
+import "menus" as Menus
+import "notifications" as Notifs
+import "wallpaper" as Walls
+import "services" as Services
 
+// Composición:
+// - Popups GLOBALES (una sola instancia): LauncherMenu, PowerMenu,
+//   WallpaperMenu.
+// - POR PANTALLA: fondo, toasts y dock.
+//   El estado del dock vive en el singleton DockService.
+// - Los paneles viven en el delegate de Variants y no ven los `id` de
+//   fuera: los popups se registran en el singleton Popups y los botones
+//   los alternan desde ahí (sin pasar `id` por propiedades).
 ShellRoot {
+    Menus.LauncherMenu {
+        id: launcherMenu
+        Component.onCompleted: Services.Popups.launcherMenu = launcherMenu
+    }
+    Menus.PowerMenu {
+        id: powerMenu
+        Component.onCompleted: Services.Popups.powerMenu = powerMenu
+    }
+    Walls.WallpaperMenu {
+        id: wallpaperMenu
+        Component.onCompleted: Services.Popups.wallpaperMenu = wallpaperMenu
+    }
+
     Variants {
         model: Quickshell.screens
 
@@ -10,43 +35,19 @@ ShellRoot {
             Scope {
                 required property var modelData
 
-                Widgets.LeftPanel {
-                    id: leftPanel
-                    screen: modelData
-                    launcherMenu: launcherMenu
-                }
-                Widgets.CenterPanel {
-                    id: centerPanel
-                    screen: modelData
-                    notificationCenter: notificationCenter
-                }
-                Widgets.RightPanel {
-                    id: rightPanel
-                    screen: modelData
-                    powerMenu: powerMenu
-                }
-                Widgets.WallpaperBackground {
+                DockMod.Dock {
                     screen: modelData
                 }
-                Widgets.WallpaperMenu {
+                DockMod.DockTrigger {
                     screen: modelData
                 }
-                Widgets.LauncherMenu {
-                    id: launcherMenu
+                DockMod.DockMenu {
                     screen: modelData
-                    barWindow: leftPanel
                 }
-                Widgets.PowerMenu {
-                    id: powerMenu
+                Walls.WallpaperBackground {
                     screen: modelData
-                    barWindow: rightPanel
                 }
-                Widgets.NotificationCenter {
-                    id: notificationCenter
-                    screen: modelData
-                    barWindow: centerPanel
-                }
-                Widgets.NotificationToasts {
+                Notifs.NotificationToasts {
                     screen: modelData
                 }
             }
